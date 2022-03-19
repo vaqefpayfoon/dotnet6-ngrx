@@ -1,0 +1,35 @@
+dotnet new sln
+dotnet new webapi -o API
+dotnet sln add API
+
+dotnet new classlib -o Core
+dotnet sln add Core
+
+dotnet new classlib -o Infrastructure
+dotnet sln add Infrastructure
+
+cd API
+dotnet add reference ../Infrastructure
+
+dotnet dev-certs https
+dotnet dev-certs https -t => stand for trust
+
+
+--------------------------------Ef Core Tools------------------------------------------
+dotnet tool uninstall --global dotnet-ef
+dotnet tool install --global dotnet-ef
+
+dotnet ef migrations add Initial -p ../Infrastructure -s ../API -o Data/Migrations
+dotnet ef migrations remove -p ../Infrastructure -s ../API
+dotnet ef database update
+--------------------------------------INSTALATION--------------------------------------
+dotnet ef migrations add initial --context StoreContext -p Infrastructure -s API -o Data/Migrations
+
+dotnet ef database update --context StoreContext -p Infrastructure -s API
+
+
+dotnet ef migrations add identity --context AppIdentitydbContext -p Infrastructure -s API -o Data/Migrations
+
+dotnet ef database update --context AppIdentitydbContext -p Infrastructure -s API
+
+bootstrap bootswatch font-awesome ngx-bootstrap ngx-spinner ngx-toastr
