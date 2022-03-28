@@ -19,7 +19,7 @@ namespace Infrastructure.Data
                     {
                         context.ProductBrands.Add(item);
                     }
-                    context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
                 if(!context.ProductTypes.Any())
                 {
@@ -30,7 +30,7 @@ namespace Infrastructure.Data
                     {
                         context.ProductTypes.Add(item);
                     }
-                    context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
                 if(!context.Products.Any())
                 {
@@ -41,7 +41,7 @@ namespace Infrastructure.Data
                     {
                         context.Products.Add(item);
                     }
-                    context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)

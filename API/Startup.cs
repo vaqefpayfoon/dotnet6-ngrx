@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using StackExchange.Redis;
 
 namespace API
 {
@@ -55,12 +54,6 @@ namespace API
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
 
-            services.AddSingleton<IConnectionMultiplexer>(c => {
-                var configuration = ConfigurationOptions.Parse(_config
-                    .GetConnectionString("Redis"), true);
-                return ConnectionMultiplexer.Connect(configuration);
-            });
-
             services.AddApplicationServices();
             services.AddIdentityServices(_config);
             services.AddSwaggerDocumentation();
@@ -68,7 +61,9 @@ namespace API
             {
                 opt.AddPolicy("CorsPolicy", policy => 
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(
+                        "https://localhost:4200",
+                        "http://localhost:4200");
                 });
             });
         }
@@ -86,8 +81,8 @@ namespace API
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "Content")
-                ), RequestPath = "/content"
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")
+                ), RequestPath = "/wwwroot"
             });
 
             app.UseCors("CorsPolicy");
