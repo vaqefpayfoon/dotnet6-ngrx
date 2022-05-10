@@ -27,12 +27,16 @@ namespace API.Controllers
             _userManager = userManager;
         }
 
-        [Authorize]
+        // [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await _userManager.FindByEmailFromClaimsPrinciple(HttpContext.User);
+            // var email = HttpContext?.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
+            // var user = await _userManager.FindByEmailAsync(email);
+            if(user == null)
+                return Unauthorized();
             return new UserDto
             {
                 Id = user.Id,
@@ -79,7 +83,7 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized(new ApiResponse(401));
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+            var result = await _signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
 
             if (!result.Succeeded) return Unauthorized(new ApiResponse(401));
 

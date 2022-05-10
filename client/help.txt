@@ -1,0 +1,8 @@
+The canActivate is called when the URL changes to the route and matches the route with the Guard
+
+This guard type is similar to the canActivate guard except that it is called when activating a route child and not the route itself
+
+The canDeactivate guard’s job is to check criteria before leaving this time a route
+
+The canLoad guard is implemented to decide if children can be loaded or not. You might be wondering what’s the difference between the canLoadand the canActivate?
+Well, there is a difference, the canActivate exists to prevent unauthorized users from accessing a route, while canLoad is used to prevent the application from loading an entire module or component in a lazy way (lazy loading) if the user is not authorized.

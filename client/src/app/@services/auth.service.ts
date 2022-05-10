@@ -21,8 +21,10 @@ export class AuthService {
       return of(null);
     }
 
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${token}`);
+    const headers= new HttpHeaders()
+        .set('content-type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
+        .set('Access-Control-Allow-Origin', '*');
 
     return this.http.get<AuthModel.IUser>(this.baseUrl + 'account', {headers}).pipe(
       map((user: AuthModel.IUser) => {
@@ -30,8 +32,7 @@ export class AuthService {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
-      }),
-      catchError((error) => throwError(() => new Error(error)))
+      })
     );
   }
 
@@ -41,8 +42,7 @@ export class AuthService {
         localStorage.setItem('token', user.token);
         this.currentUserSource.next(user);
         return user;
-      }),
-      catchError((error) => throwError(() => new Error(error)))
+      })
     );
   }
 }

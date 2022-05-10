@@ -25,7 +25,7 @@ dotnet ef database update
 --------------------------------------INSTALATION--------------------------------------
 dotnet ef migrations add initial --context StoreContext -p Infrastructure -s API -o Data/Migrations
 
-dotnet ef database update --context StoreContext -p Infrastructure -s API
+dotnet ef database update --context AppIdentityDbContext -p Infrastructure -s API
 
 
 dotnet ef migrations add identity --context AppIdentitydbContext -p Infrastructure -s API -o Data/Migrations

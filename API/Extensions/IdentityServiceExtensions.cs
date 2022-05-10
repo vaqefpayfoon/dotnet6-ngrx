@@ -13,12 +13,14 @@ namespace API.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
-            // var builder = services.AddIdentityCore<AppUser>();
+            var builder = services.AddIdentityCore<AppUser>();
             // builder.AddRoles<AppRole>();
-            var builder = services.AddIdentity<AppUser, AppRole>(option => {
-                option.User.RequireUniqueEmail = false;
-            });
-            builder = new IdentityBuilder(builder.UserType, builder.RoleType, builder.Services);
+            // var builder = services.AddIdentity<AppUser, AppRole>(option => {
+            //     option.User.RequireUniqueEmail = false;
+            // });
+            // builder = new IdentityBuilder(builder.UserType, builder.RoleType, builder.Services);
+            builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
+            builder.AddRoles<AppRole>();
             builder.AddEntityFrameworkStores<AppIdentityDbContext>();
             builder.AddSignInManager<SignInManager<AppUser>>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

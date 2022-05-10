@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './@guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, data: { breadcrumb: 'Home' } },
+  {
+    path: '',
+    component: HomeComponent,
+    data: { breadcrumb: 'Home' },
+    canActivate: [AuthGuard],
+  },
   {
     path: 'auth',
     loadChildren: () =>
@@ -12,14 +18,14 @@ const routes: Routes = [
   },
   {
     path: 'customer',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./customer/customer.module').then((mod) => mod.CustomerModule),
     data: { breadcrumb: 'customer' },
   },
   {
     path: 'admin-panel',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import('./admin-panel/admin-panel.module').then(
         (mod) => mod.AdminPanelModule
@@ -32,6 +38,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   imports: [RouterModule.forRoot(routes)],
-  exports:[RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}
